@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Protocolo de Transformación Metabólica | Jesús René Stecler</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --dark: #0f1a14;
+    --dark2: #142019;
+    --teal: #1D9E75;
+    --teal-light: #5DCAA5;
+    --gold: #C8A84B;
+    --white: #F0EDE8;
+    --gray: #888;
+    --red: #C0392B;
+  }
+  body { background: var(--dark); color: var(--white); font-family: 'Georgia', serif; }
+  a { color: var(--teal-light); text-decoration: none; }
+
+  /* NAV */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid #1a2e20; }
+  .nav-brand { font-size: 13px; letter-spacing: 2px; color: var(--teal-light); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 24px; font-size: 13px; }
+
+  /* HERO */
+  .hero { max-width: 780px; margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
+  .hero-tag { font-size: 11px; letter-spacing: 4px; color: var(--teal-light); text-transform: uppercase; margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(32px, 6vw, 56px); line-height: 1.15; color: var(--white); margin-bottom: 20px; }
+  .hero-sub { font-size: 16px; color: var(--gray); line-height: 1.7; margin-bottom: 12px; }
+  .phases-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 24px 0 40px; }
+  .phase-badge { font-size: 11px; letter-spacing: 2px; padding: 6px 14px; border: 1px solid var(--teal); color: var(--teal-light); border-radius: 20px; }
+
+  /* FORM */
+  .form-box { background: var(--dark2); border: 1px solid #1D9E7540; border-radius: 12px; padding: 32px; max-width: 480px; margin: 0 auto; }
+  .form-box p { font-size: 14px; color: var(--gray); margin-bottom: 20px; text-align: center; }
+  .form-row { display: flex; flex-direction: column; gap: 12px; }
+  .form-row input { background: #0a1410; border: 1px solid #2a4a35; border-radius: 8px; padding: 14px 16px; color: var(--white); font-size: 15px; outline: none; transition: border 0.2s; }
+  .form-row input:focus { border-color: var(--teal); }
+  .form-row input::placeholder { color: #4a6a55; }
+  .btn-primary { background: var(--teal); color: #fff; border: none; border-radius: 8px; padding: 16px; font-size: 15px; font-weight: bold; cursor: pointer; letter-spacing: 0.5px; transition: background 0.2s; }
+  .btn-primary:hover { background: #16875f; }
+  .form-note { font-size: 11px; color: #4a6a55; text-align: center; margin-top: 10px; }
+
+  /* SUCCESS */
+  .success-box { display: none; background: #0d2a1a; border: 1px solid var(--teal); border-radius: 12px; padding: 32px; max-width: 480px; margin: 0 auto; text-align: center; }
+  .success-box .check { font-size: 40px; margin-bottom: 16px; }
+  .success-box h3 { font-size: 20px; color: var(--teal-light); margin-bottom: 10px; }
+  .success-box p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+  /* STATS */
+  .stats { display: flex; justify-content: center; gap: 48px; padding: 48px 24px; border-top: 1px solid #1a2e20; border-bottom: 1px solid #1a2e20; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 28px; color: var(--teal-light); font-weight: bold; }
+  .stat-label { font-size: 11px; color: var(--gray); letter-spacing: 1px; margin-top: 4px; }
+
+  /* SECTION */
+  section { max-width: 860px; margin: 0 auto; padding: 72px 24px; }
+  .section-tag { font-size: 11px; letter-spacing: 3px; color: var(--teal-light); text-transform: uppercase; margin-bottom: 16px; }
+  .section-title { font-size: clamp(24px, 4vw, 38px); line-height: 1.2; margin-bottom: 12px; }
+  .section-title em { color: var(--teal-light); font-style: normal; }
+  .hr-gold { height: 1px; background: var(--gold); opacity: 0.4; margin: 24px 0; }
+
+  /* BENEFITS */
+  .benefits { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 40px; }
+  .benefit { background: var(--dark2); border-radius: 10px; padding: 24px; border-left: 3px solid var(--teal); }
+  .benefit-icon { font-size: 24px; margin-bottom: 12px; }
+  .benefit h4 { font-size: 14px; color: var(--teal-light); margin-bottom: 8px; letter-spacing: 0.5px; }
+  .benefit p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .quote { font-size: 15px; color: var(--gray); font-style: italic; border-left: 3px solid var(--gold); padding-left: 20px; margin: 40px 0; line-height: 1.7; }
+
+  /* PHASES */
+  .phases { display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
+  .phase { display: flex; gap: 20px; align-items: flex-start; padding: 24px; border-radius: 10px; border: 1px solid #1a2e20; }
+  .phase.free { border-color: var(--teal); background: #0d2a1a; }
+  .phase-num { font-size: 11px; letter-spacing: 2px; color: var(--gray); min-width: 40px; padding-top: 4px; }
+  .phase-hours { font-size: 28px; color: var(--teal-light); font-weight: bold; min-width: 60px; }
+  .phase-info h4 { font-size: 15px; color: var(--white); margin-bottom: 4px; }
+  .phase-info p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .phase-badge2 { font-size: 10px; letter-spacing: 1px; padding: 3px 10px; border-radius: 12px; margin-left: 10px; vertical-align: middle; }
+  .free-badge { background: var(--teal); color: #fff; }
+  .premium-badge { background: #2a2a2e; color: var(--gray); }
+
+  /* AUTHOR */
+  .author-box { background: var(--dark2); border-radius: 12px; padding: 32px; display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .author-creds { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+  .cred { font-size: 11px; letter-spacing: 1px; padding: 6px 14px; border-radius: 6px; text-align: center; }
+  .cred-teal { background: var(--teal); color: #fff; }
+  .cred-purple { background: #5A3E85; color: #fff; }
+  .cred-orange { background: #D4631A; color: #fff; }
+  .author-text { font-size: 14px; color: var(--gray); line-height: 1.8; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid #1a2e20; padding: 32px 24px; text-align: center; }
+  footer p { font-size: 12px; color: #4a6a55; line-height: 1.8; }
+
+  @media(max-width:600px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .stats { gap: 24px; }
+    .author-box { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Jesús René Stecler · Entrenador Personal · Medicina UBA</div>
+  <div class="nav-links">
+    <a href="https://www.instagram.com/jesus_stecler/" target="_blank">@jesus_stecler</a>
+    <a href="https://www.youtube.com/@jesusr.stecler_coach" target="_blank">YouTube</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Protocolo de Transformación Metabólica</div>
+  <h1>El comienzo de tu nueva identidad inicia recuperando el control de tu cuerpo.</h1>
+  <p class="hero-sub">a través del Ayuno Intermitente — Método 4 Fases</p>
+  <div class="phases-row">
+    <span class="phase-badge">Fase 1 · 12H</span>
+    <span class="phase-badge">Fase 2 · 16H</span>
+    <span class="phase-badge">Fase 3 · 18H</span>
+    <span class="phase-badge">Fase 4 · 20H</span>
+  </div>
+
+  <div class="form-box" id="formBox">
+    <p>Dejame tu nombre y email y te mando la Fase 1 gratis ahora mismo.</p>
+    <div class="form-row">
+      <input type="text" id="nombre" placeholder="Tu nombre" />
+      <input type="email" id="email" placeholder="Tu email" />
+      <button class="btn-primary" onclick="enviarForm()">Quiero empezar gratis →</button>
+    </div>
+    <p class="form-note">Sin spam. Sin compromisos. Solo el protocolo.</p>
+  </div>
+
+  <div class="success-box" id="successBox">
+    <div class="check">✅</div>
+    <h3>¡Perfecto! Ya está en camino.</h3>
+    <p>Revisá tu bandeja de entrada — te mandamos la Fase 1 ahora mismo.<br>Si no aparece en 5 minutos, revisá spam.</p>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">6.6K</div><div class="stat-label">seguidores</div></div>
+  <div class="stat"><div class="stat-num">13+</div><div class="stat-label">años de experiencia</div></div>
+  <div class="stat"><div class="stat-num">4</div><div class="stat-label">fases progresivas</div></div>
+</div>
+
+<section>
+  <div class="section-tag">Lo que realmente buscás</div>
+  <h2 class="section-title">No buscás <em>ayunar más horas.</em></h2>
+  <p style="color:var(--gray);font-size:15px;line-height:1.7;">Buscás algo mucho más profundo. Y este protocolo está diseñado exactamente para eso.</p>
+  <div class="hr-gold"></div>
+  <div class="benefits">
+    <div class="benefit"><div class="benefit-icon">⚡</div><h4>Energía sin depender de la comida</h4><p>Dejás de necesitar comer cada pocas horas para funcionar. Tu cuerpo aprende a usar sus propias reservas.</p></div>
+    <div class="benefit"><div class="benefit-icon">🧠</div><h4>Claridad mental que no habías sentido antes</h4><p>Cuando el cerebro usa cuerpos cetónicos como combustible, el enfoque cambia de manera notable.</p></div>
+    <div class="benefit"><div class="benefit-icon">💪</div><h4>Un cuerpo que volvés a sentir tuyo</h4><p>No se trata de una cifra en la balanza. Se trata de mirarte al espejo y reconocerte.</p></div>
+    <div class="benefit"><div class="benefit-icon">🔓</div><h4>Control. De verdad.</h4><p>Elegís cuándo comés, qué comés y por qué. No el hambre, no la ansiedad, no el hábito.</p></div>
+  </div>
+  <div class="quote">"El éxito no es ayunar más horas. Es encontrar el protocolo más sostenible para vos." — Jesús René Stecler</div>
+</section>
+
+<section style="border-top:1px solid #1a2e20;">
+  <div class="section-tag">El protocolo</div>
+  <h2 class="section-title">4 Fases. <em>Tu ritmo.</em></h2>
+  <p style="color:var(--gray);font-size:15px;line-height:1.7;">Una progresión diseñada para que tu cuerpo se adapte sin forzar nada. Cada fase tiene su propio protocolo de alimentación y entrenamiento.</p>
+  <div class="hr-gold"></div>
+  <div class="phases">
+    <div class="phase free">
+      <div class="phase-num">01</div>
+      <div class="phase-hours">12H</div>
+      <div class="phase-info">
+        <h4>La Activación <span class="phase-badge2 free-badge">✓ Gratis</span></h4>
+        <p>Semanas 1–2. Ventana 20:00–08:00. Empezás a recalibrar tus señales de hambre y a estabilizar tu energía.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">02</div>
+      <div class="phase-hours">16H</div>
+      <div class="phase-info">
+        <h4>La Combustión <span class="phase-badge2 premium-badge">🔒 Premium</span></h4>
+        <p>Semanas 3–5. El estándar dorado. Tu cuerpo empieza a favorecer adaptaciones metabólicas profundas.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">03</div>
+      <div class="phase-hours">18H</div>
+      <div class="phase-info">
+        <h4>La Profundidad <span class="phase-badge2 premium-badge">🔒 Premium</span></h4>
+        <p>Semanas 6–8. Puede favorecer procesos de regeneración celular. Recomposición corporal avanzada.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">04</div>
+      <div class="phase-hours">20H</div>
+      <div class="phase-info">
+        <h4>El Dominio <span class="phase-badge2 premium-badge">🔒 Premium</span></h4>
+        <p>Semana 9+. Máxima flexibilidad metabólica. No es el objetivo para todos — y eso está bien.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="border-top:1px solid #1a2e20;">
+  <div class="section-tag">Quién lo creó</div>
+  <h2 class="section-title">Jesús René <em>Stecler</em></h2>
+  <div class="hr-gold"></div>
+  <div class="author-box">
+    <div style="flex:1;min-width:220px;">
+      <div class="author-creds">
+        <span class="cred cred-teal">13 AÑOS DE EXPERIENCIA</span>
+        <span class="cred cred-purple">MEDICINA UBA – 3ER AÑO</span>
+        <span class="cred cred-orange">CIENTOS DE CLIENTES TRANSFORMADOS</span>
+      </div>
+      <p class="author-text">Llevo más de 13 años ayudando a personas reales a transformar su cuerpo y su salud. No desde un laboratorio — desde la cancha, al lado de mis clientes, viendo qué funciona y qué no. Hoy combino ese conocimiento práctico con formación médica rigurosa para darte protocolos basados en evidencia que podés sostener en el tiempo.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Instagram: <a href="https://www.instagram.com/jesus_stecler/" target="_blank">@jesus_stecler</a> · YouTube: <a href="https://www.youtube.com/@jesusr.stecler_coach" target="_blank">@jesusr.stecler_coach</a><br>
+  © Jesús René Stecler. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+async function enviarForm() {
+  const nombre = document.getElementById('nombre').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if (!nombre || !email) { alert('Por favor completá tu nombre y email.'); return; }
+
+  const btn = document.querySelector('.btn-primary');
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, email })
+    });
+
+    if (resp.ok) {
+      document.getElementById('formBox').style.display = 'none';
+      document.getElementById('successBox').style.display = 'block';
+    } else {
+      btn.textContent = 'Quiero empezar gratis →';
+      btn.disabled = false;
+      alert('Hubo un error. Intentá de nuevo.');
+    }
+  } catch(e) {
+    btn.textContent = 'Quiero empezar gratis →';
+    btn.disabled = false;
+    alert('Hubo un error. Intentá de nuevo.');
+  }
+}
+</script>
+</body>
+</html>
